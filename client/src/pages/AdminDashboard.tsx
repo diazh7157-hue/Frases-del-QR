@@ -69,7 +69,13 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-background text-foreground p-4 md:p-8 lg:p-12 font-sans">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+      <div className="max-w-7xl mx-auto space-y-8">
+        <div className="flex flex-col items-center text-center space-y-2 mb-12">
+          <h2 className="text-2xl font-bold text-primary tracking-widest uppercase italic">Ruth Indumentaria Modesta</h2>
+          <div className="h-1 w-24 bg-primary/20 rounded-full" />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
         
         {/* Left Column: Management */}
         <div className="lg:col-span-7 space-y-8">
@@ -83,9 +89,9 @@ export default function AdminDashboard() {
           </header>
 
           <div className="glass-panel p-6 rounded-2xl space-y-6">
-            <div className="flex items-center gap-3 text-primary mb-2">
+              <div className="flex items-center gap-3 text-primary mb-2">
               <Sparkles className="w-5 h-5" />
-              <h2 className="text-xl font-bold font-display text-white">Add New Phrase</h2>
+              <h2 className="text-xl font-bold font-display text-foreground">Add New Phrase</h2>
             </div>
             
             <Form {...form}>
@@ -116,7 +122,7 @@ export default function AdminDashboard() {
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-xl font-bold font-display text-white/80 px-1">Active Phrases ({phrases?.length || 0})</h3>
+            <h3 className="text-xl font-bold font-display text-foreground/80 px-1">Active Phrases ({phrases?.length || 0})</h3>
             
             {isLoading ? (
               <div className="space-y-3">
@@ -133,9 +139,9 @@ export default function AdminDashboard() {
                 {phrases?.map((phrase) => (
                   <div 
                     key={phrase.id} 
-                    className="group flex items-start justify-between gap-4 p-5 rounded-xl bg-card border border-white/5 hover:border-primary/30 transition-all hover:bg-card/80"
+                    className="group flex items-start justify-between gap-4 p-5 rounded-xl bg-card border border-primary/10 hover:border-primary/30 transition-all hover:bg-card/80"
                   >
-                    <p className="text-lg leading-relaxed text-white/90 font-medium">
+                    <p className="text-lg leading-relaxed text-foreground/90 font-medium">
                       "{phrase.text}"
                     </p>
                     <button
@@ -163,7 +169,7 @@ export default function AdminDashboard() {
                 <div className="inline-flex items-center justify-center p-3 rounded-full bg-primary/10 text-primary mb-2">
                   <QrCode className="w-6 h-6" />
                 </div>
-                <h2 className="text-2xl font-bold font-display text-white">Live Access Point</h2>
+                <h2 className="text-2xl font-bold font-display text-foreground">Live Access Point</h2>
                 <p className="text-muted-foreground text-sm max-w-[250px] mx-auto">
                   Scan to reveal a random phrase from your collection.
                 </p>
@@ -201,6 +207,7 @@ export default function AdminDashboard() {
           </div>
         </div>
 
+        </div>
       </div>
     </div>
   );

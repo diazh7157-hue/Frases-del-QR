@@ -8,35 +8,35 @@
   --font-sans: 'DM Sans', sans-serif;
   --font-display: 'Outfit', sans-serif;
 
-  /* Dark, Tech-focused Theme */
-  --background: 222 47% 11%;
-  --foreground: 210 40% 98%;
+  /* Soft Pink Theme */
+  --background: 340 60% 98%;
+  --foreground: 340 40% 10%;
 
-  --card: 222 47% 13%;
-  --card-foreground: 210 40% 98%;
+  --card: 340 60% 100%;
+  --card-foreground: 340 40% 10%;
 
-  --popover: 222 47% 11%;
-  --popover-foreground: 210 40% 98%;
+  --popover: 340 60% 98%;
+  --popover-foreground: 340 40% 10%;
 
-  /* Electric Cyan Primary */
-  --primary: 190 100% 50%;
-  --primary-foreground: 222 47% 11%;
+  /* Soft Rose Primary */
+  --primary: 340 70% 60%;
+  --primary-foreground: 0 0% 100%;
 
-  --secondary: 217 33% 17%;
-  --secondary-foreground: 210 40% 98%;
+  --secondary: 340 30% 94%;
+  --secondary-foreground: 340 40% 10%;
 
-  --muted: 217 33% 17%;
-  --muted-foreground: 215 20% 65%;
+  --muted: 340 20% 94%;
+  --muted-foreground: 340 10% 40%;
 
-  --accent: 190 100% 50%;
-  --accent-foreground: 222 47% 11%;
+  --accent: 340 70% 60%;
+  --accent-foreground: 0 0% 100%;
 
   --destructive: 0 84% 60%;
   --destructive-foreground: 210 40% 98%;
 
-  --border: 217 33% 20%;
-  --input: 217 33% 20%;
-  --ring: 190 100% 50%;
+  --border: 340 30% 90%;
+  --input: 340 30% 90%;
+  --ring: 340 70% 60%;
 
   --radius: 0.75rem;
 }
@@ -59,10 +59,10 @@
   }
   
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-pink-400;
   }
   
   .text-gradient-primary {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-blue-400;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-pink-500;
   }
 }

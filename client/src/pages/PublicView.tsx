@@ -17,9 +17,14 @@ export default function PublicView() {
 
   return (
     <div className="min-h-screen w-full bg-background flex flex-col items-center justify-center p-6 relative overflow-hidden">
+      <div className="absolute top-8 left-0 w-full flex flex-col items-center text-center space-y-1">
+        <h2 className="text-xl font-bold text-primary tracking-widest uppercase italic">Ruth Indumentaria Modesta</h2>
+        <div className="h-0.5 w-16 bg-primary/20 rounded-full" />
+      </div>
+
       {/* Abstract Background Decoration */}
-      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-purple-500/5 blur-[120px] pointer-events-none" />
+      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/10 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-pink-500/10 blur-[120px] pointer-events-none" />
 
       <main className="relative z-10 w-full max-w-2xl text-center space-y-12">
         <div className="flex justify-center mb-8">
@@ -69,7 +74,7 @@ export default function PublicView() {
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 className="space-y-6"
               >
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display leading-tight text-gradient bg-gradient-to-br from-white to-white/60 tracking-tight">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display leading-tight text-gradient tracking-tight">
                   "{phrase.text}"
                 </h1>
                 <p className="text-sm font-mono text-primary/40 uppercase tracking-widest">
