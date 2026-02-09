@@ -1,38 +1,38 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
 
-// modify the interface with any CRUD methods
-// you might need
+import { db } from "./db";
+import { phrases, type Phrase, type InsertPhrase } from "@shared/schema";
+import { eq, sql } from "drizzle-orm";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  getPhrases(): Promise<Phrase[]>;
+  createPhrase(phrase: InsertPhrase): Promise<Phrase>;
+  deletePhrase(id: number): Promise<void>;
+  getRandomPhrase(): Promise<Phrase | undefined>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-
-  constructor() {
-    this.users = new Map();
+export class DatabaseStorage implements IStorage {
+  async getPhrases(): Promise<Phrase[]> {
+    return await db.select().from(phrases).orderBy(phrases.createdAt);
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  async createPhrase(phrase: InsertPhrase): Promise<Phrase> {
+    const [newPhrase] = await db.insert(phrases).values(phrase).returning();
+    return newPhrase;
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+  async deletePhrase(id: number): Promise<void> {
+    await db.delete(phrases).where(eq(phrases.id, id));
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+  async getRandomPhrase(): Promise<Phrase | undefined> {
+    // Efficiently get one random row
+    const [phrase] = await db
+      .select()
+      .from(phrases)
+      .orderBy(sql`RANDOM()`)
+      .limit(1);
+    return phrase;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
