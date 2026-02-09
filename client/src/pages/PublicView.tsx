@@ -1,9 +1,48 @@
 import { useRandomPhrase } from "@/hooks/use-phrases";
 import { useQueryClient } from "@tanstack/react-query";
 import { api } from "@shared/routes";
-import { Loader2, RefreshCw, Quote } from "lucide-react";
+import { Loader2, RefreshCw, Quote, Flower2, Eye } from "lucide-react";
 import { ShinyButton } from "@/components/ui/shiny-button";
 import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+
+const FallingElements = () => {
+  const [elements, setElements] = useState<{ id: number; left: string; delay: string; duration: string; type: 'flower' | 'eye'; size: string }[]>([]);
+
+  useEffect(() => {
+    const newElements = Array.from({ length: 20 }).map((_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 15}s`,
+      duration: `${10 + Math.random() * 10}s`,
+      type: Math.random() > 0.5 ? 'flower' : 'eye' as const,
+      size: `${12 + Math.random() * 12}px`
+    }));
+    setElements(newElements);
+  }, []);
+
+  return (
+    <>
+      {elements.map((el) => (
+        <div
+          key={el.id}
+          className="falling-element"
+          style={{
+            left: el.left,
+            animationDelay: el.delay,
+            animationDuration: el.duration,
+          }}
+        >
+          {el.type === 'flower' ? (
+            <Flower2 style={{ width: el.size, height: el.size }} className="text-primary/20" />
+          ) : (
+            <Eye style={{ width: el.size, height: el.size }} className="text-primary/10" />
+          )}
+        </div>
+      ))}
+    </>
+  );
+};
 
 export default function PublicView() {
   const { data: phrase, isLoading, isError, refetch, isRefetching } = useRandomPhrase();
@@ -17,6 +56,7 @@ export default function PublicView() {
 
   return (
     <div className="min-h-screen w-full bg-background flex flex-col items-center justify-center p-6 relative overflow-hidden">
+      <FallingElements />
       <div className="absolute top-8 left-0 w-full flex flex-col items-center text-center space-y-1">
         <h2 className="text-xl font-bold text-primary tracking-widest uppercase italic">Ruth Indumentaria Modesta</h2>
         <div className="h-0.5 w-16 bg-primary/20 rounded-full" />
