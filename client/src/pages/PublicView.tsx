@@ -1,23 +1,36 @@
 import { useRandomPhrase } from "@/hooks/use-phrases";
 import { useQueryClient } from "@tanstack/react-query";
 import { api } from "@shared/routes";
-import { Loader2, RefreshCw, Quote, Flower2, Eye } from "lucide-react";
+import { Loader2, RefreshCw, Quote, Flower2, Leaf } from "lucide-react";
 import { ShinyButton } from "@/components/ui/shiny-button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const FallingElements = () => {
-  const [elements, setElements] = useState<{ id: number; left: string; delay: string; duration: string; type: 'flower' | 'eye'; size: string }[]>([]);
+  const [elements, setElements] = useState<{ id: number; left: string; delay: string; duration: string; type: 'flower' | 'leaf'; size: string; color: string }[]>([]);
 
   useEffect(() => {
-    const newElements = Array.from({ length: 20 }).map((_, i) => ({
-      id: i,
-      left: `${Math.random() * 100}%`,
-      delay: `${Math.random() * 15}s`,
-      duration: `${10 + Math.random() * 10}s`,
-      type: Math.random() > 0.5 ? 'flower' : 'eye' as const,
-      size: `${12 + Math.random() * 12}px`
-    }));
+    const flowerColors = [
+      'text-pink-400', 
+      'text-rose-400', 
+      'text-orange-300', 
+      'text-yellow-400', 
+      'text-purple-400',
+      'text-red-400'
+    ];
+
+    const newElements = Array.from({ length: 30 }).map((_, i) => {
+      const isLeaf = Math.random() > 0.6;
+      return {
+        id: i,
+        left: `${Math.random() * 100}%`,
+        delay: `${Math.random() * 20}s`,
+        duration: `${12 + Math.random() * 12}s`,
+        type: isLeaf ? 'leaf' : 'flower' as const,
+        size: `${14 + Math.random() * 14}px`,
+        color: isLeaf ? 'text-green-500/40' : flowerColors[Math.floor(Math.random() * flowerColors.length)] + '/40'
+      };
+    });
     setElements(newElements);
   }, []);
 
@@ -34,9 +47,9 @@ const FallingElements = () => {
           }}
         >
           {el.type === 'flower' ? (
-            <Flower2 style={{ width: el.size, height: el.size }} className="text-primary/20" />
+            <Flower2 style={{ width: el.size, height: el.size }} className={el.color} />
           ) : (
-            <Eye style={{ width: el.size, height: el.size }} className="text-primary/10" />
+            <Leaf style={{ width: el.size, height: el.size }} className={el.color} />
           )}
         </div>
       ))}
