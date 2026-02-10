@@ -81,17 +81,17 @@ export default function AdminDashboard() {
         <div className="lg:col-span-7 space-y-8">
           <header className="space-y-2 mb-10">
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-              <span className="text-gradient-primary">Random</span> Phrase<br />Generator
+              Generador de <span className="text-gradient-primary">Frases</span><br />Aleatorias
             </h1>
             <p className="text-muted-foreground text-lg">
-              Manage the pool of wisdom delivered via QR code.
+              Gestiona el conjunto de sabiduría entregado vía código QR.
             </p>
           </header>
 
           <div className="glass-panel p-6 rounded-2xl space-y-6">
               <div className="flex items-center gap-3 text-primary mb-2">
               <Sparkles className="w-5 h-5" />
-              <h2 className="text-xl font-bold font-display text-foreground">Add New Phrase</h2>
+              <h2 className="text-xl font-bold font-display text-foreground">Añadir Nueva Frase</h2>
             </div>
             
             <Form {...form}>
@@ -103,7 +103,7 @@ export default function AdminDashboard() {
                     <FormItem>
                       <FormControl>
                         <Textarea 
-                          placeholder="Type something inspiring, funny, or mysterious..." 
+                          placeholder="Escribe algo inspirador, divertido o misterioso..." 
                           className="bg-secondary/50 border-white/10 focus:border-primary/50 focus:ring-primary/20 min-h-[120px] text-lg resize-none rounded-xl"
                           {...field} 
                         />
@@ -114,7 +114,7 @@ export default function AdminDashboard() {
                 />
                 <div className="flex justify-end">
                   <ShinyButton type="submit" isLoading={createPhrase.isPending}>
-                    <Plus className="w-4 h-4" /> Add to Rotation
+                    <Plus className="w-4 h-4" /> Añadir a la Rotación
                   </ShinyButton>
                 </div>
               </form>
@@ -122,7 +122,7 @@ export default function AdminDashboard() {
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-xl font-bold font-display text-foreground/80 px-1">Active Phrases ({phrases?.length || 0})</h3>
+            <h3 className="text-xl font-bold font-display text-foreground/80 px-1">Frases Activas ({phrases?.length || 0})</h3>
             
             {isLoading ? (
               <div className="space-y-3">
@@ -132,7 +132,7 @@ export default function AdminDashboard() {
               </div>
             ) : phrases?.length === 0 ? (
               <div className="text-center py-12 rounded-2xl border-2 border-dashed border-white/5 bg-white/[0.02]">
-                <p className="text-muted-foreground">No phrases yet. Add your first one above!</p>
+                <p className="text-muted-foreground">Aún no hay frases. ¡Añade la primera arriba!</p>
               </div>
             ) : (
               <div className="grid gap-3">
@@ -148,7 +148,7 @@ export default function AdminDashboard() {
                       onClick={() => handleDelete(phrase.id)}
                       disabled={deletePhrase.isPending}
                       className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
-                      title="Delete phrase"
+                      title="Eliminar frase"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -169,9 +169,9 @@ export default function AdminDashboard() {
                 <div className="inline-flex items-center justify-center p-3 rounded-full bg-primary/10 text-primary mb-2">
                   <QrCode className="w-6 h-6" />
                 </div>
-                <h2 className="text-2xl font-bold font-display text-foreground">Live Access Point</h2>
+                <h2 className="text-2xl font-bold font-display text-foreground">Punto de Acceso en Vivo</h2>
                 <p className="text-muted-foreground text-sm max-w-[250px] mx-auto">
-                  Scan to reveal a random phrase from your collection.
+                  Escanea para revelar una frase aleatoria de tu colección.
                 </p>
               </div>
 
@@ -191,7 +191,7 @@ export default function AdminDashboard() {
                   <button 
                     onClick={copyToClipboard}
                     className="p-2 hover:bg-white/10 rounded-lg transition-colors text-white"
-                    title="Copy Link"
+                    title="Copiar Enlace"
                   >
                     {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
                   </button>
@@ -199,7 +199,7 @@ export default function AdminDashboard() {
 
                 <Link href="/view" className="block w-full">
                   <ShinyButton variant="secondary" className="w-full group">
-                    Visit Public Page <ExternalLink className="w-4 h-4 ml-2 opacity-50 group-hover:opacity-100 transition-opacity" />
+                    Visitar Página Pública <ExternalLink className="w-4 h-4 ml-2 opacity-50 group-hover:opacity-100 transition-opacity" />
                   </ShinyButton>
                 </Link>
               </div>

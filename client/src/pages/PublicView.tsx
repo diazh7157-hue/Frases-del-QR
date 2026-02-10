@@ -1,26 +1,17 @@
 import { useRandomPhrase } from "@/hooks/use-phrases";
 import { useQueryClient } from "@tanstack/react-query";
 import { api } from "@shared/routes";
-import { Loader2, RefreshCw, Quote, Flower2, Leaf } from "lucide-react";
+import { Loader2, RefreshCw, Quote, Flower, Flower2, Cherry, Leaf } from "lucide-react";
 import { ShinyButton } from "@/components/ui/shiny-button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const FallingElements = () => {
-  const [elements, setElements] = useState<{ id: number; left: string; delay: string; duration: string; type: 'flower' | 'leaf'; size: string; color: string }[]>([]);
+  const [elements, setElements] = useState<{ id: number; left: string; delay: string; duration: string; type: 'flower' | 'leaf'; size: string; color: string; iconIndex: number }[]>([]);
 
   useEffect(() => {
-    const flowerColors = [
-      'text-pink-400', 
-      'text-rose-400', 
-      'text-orange-300', 
-      'text-yellow-400', 
-      'text-purple-400',
-      'text-red-400'
-    ];
-
     const newElements = Array.from({ length: 30 }).map((_, i) => {
-      const isLeaf = Math.random() > 0.6;
+      const isLeaf = Math.random() > 0.7;
       return {
         id: i,
         left: `${Math.random() * 100}%`,
@@ -28,11 +19,18 @@ const FallingElements = () => {
         duration: `${12 + Math.random() * 12}s`,
         type: isLeaf ? 'leaf' : 'flower' as const,
         size: `${14 + Math.random() * 14}px`,
-        color: isLeaf ? 'text-green-500/40' : flowerColors[Math.floor(Math.random() * flowerColors.length)] + '/40'
+        color: isLeaf ? 'text-green-500/40' : 'text-primary/40',
+        iconIndex: Math.floor(Math.random() * 3)
       };
     });
     setElements(newElements);
   }, []);
+
+  const FlowerIcon = ({ index, size, color }: { index: number, size: string, color: string }) => {
+    if (index === 0) return <Flower style={{ width: size, height: size }} className={color} />;
+    if (index === 1) return <Flower2 style={{ width: size, height: size }} className={color} />;
+    return <Cherry style={{ width: size, height: size }} className={color} />;
+  };
 
   return (
     <>
@@ -47,7 +45,7 @@ const FallingElements = () => {
           }}
         >
           {el.type === 'flower' ? (
-            <Flower2 style={{ width: el.size, height: el.size }} className={el.color} />
+            <FlowerIcon index={el.iconIndex} size={el.size} color={el.color} />
           ) : (
             <Leaf style={{ width: el.size, height: el.size }} className={el.color} />
           )}
@@ -97,7 +95,7 @@ export default function PublicView() {
                 className="flex flex-col items-center gap-4 text-muted-foreground"
               >
                 <Loader2 className="w-10 h-10 animate-spin text-primary" />
-                <p className="text-sm tracking-widest uppercase font-semibold">Consulting the Oracle...</p>
+                <p className="text-sm tracking-widest uppercase font-semibold">Consultando al Oráculo...</p>
               </motion.div>
             ) : isError ? (
               <motion.div
@@ -106,7 +104,7 @@ export default function PublicView() {
                 animate={{ opacity: 1, y: 0 }}
                 className="text-destructive font-medium"
               >
-                Unable to fetch a message. The spirits are silent.
+                No se pudo obtener un mensaje. Los espíritus están en silencio.
               </motion.div>
             ) : !phrase ? (
               <motion.div
@@ -115,8 +113,8 @@ export default function PublicView() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-4"
               >
-                <h2 className="text-3xl font-display font-bold text-white/50">Void</h2>
-                <p className="text-muted-foreground">The database is empty. Ask the admin to add some wisdom.</p>
+                <h2 className="text-3xl font-display font-bold text-black/20">Vacío</h2>
+                <p className="text-muted-foreground">La base de datos está vacía. Pide al administrador que añada algo de sabiduría.</p>
               </motion.div>
             ) : (
               <motion.div
@@ -131,7 +129,7 @@ export default function PublicView() {
                   "{phrase.text}"
                 </h1>
                 <p className="text-sm font-mono text-primary/40 uppercase tracking-widest">
-                  Message ID: #{phrase.id.toString().padStart(4, '0')}
+                  ID del Mensaje: #{phrase.id.toString().padStart(4, '0')}
                 </p>
               </motion.div>
             )}
@@ -145,13 +143,13 @@ export default function PublicView() {
             className="w-full sm:w-auto min-w-[200px]"
           >
             <RefreshCw className={`w-4 h-4 mr-2 ${isRefetching ? 'animate-spin' : ''}`} />
-            Another One
+            Otra frase
           </ShinyButton>
         </div>
       </main>
 
-      <footer className="absolute bottom-6 text-xs text-white/10 font-mono">
-        QR Random Phrase Generator &copy; {new Date().getFullYear()}
+      <footer className="absolute bottom-6 text-xs text-black/10 font-mono">
+        Generador de Frases Aleatorias QR &copy; {new Date().getFullYear()}
       </footer>
     </div>
   );
