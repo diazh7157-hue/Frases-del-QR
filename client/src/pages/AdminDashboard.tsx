@@ -71,7 +71,7 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-background text-foreground p-4 md:p-8 lg:p-12 font-sans">
       <div className="max-w-7xl mx-auto space-y-8">
         <div className="flex flex-col items-center text-center space-y-2 mb-12">
-          <h2 className="text-4xl font-bold text-primary tracking-tight" style={{ fontFamily: 'var(--font-brand)' }}>Ruth Indumentaria Modesta</h2>
+          <h2 className="text-2xl font-bold text-primary tracking-widest uppercase italic" style={{ fontFamily: 'var(--font-brand)' }}>Ruth Indumentaria Modesta</h2>
           <div className="h-1 w-24 bg-primary/20 rounded-full" />
         </div>
 

@@ -69,7 +69,7 @@ export default function PublicView() {
     <div className="min-h-screen w-full bg-background flex flex-col items-center justify-center p-6 relative overflow-hidden">
       <FallingElements />
       <div className="absolute top-8 left-0 w-full flex flex-col items-center text-center space-y-1">
-        <h2 className="text-3xl font-bold text-primary tracking-tight" style={{ fontFamily: 'var(--font-brand)' }}>Ruth Indumentaria Modesta</h2>
+        <h2 className="text-xl font-bold text-primary tracking-widest uppercase italic" style={{ fontFamily: 'var(--font-brand)' }}>Ruth Indumentaria Modesta</h2>
         <div className="h-0.5 w-16 bg-primary/20 rounded-full" />
       </div>
 
