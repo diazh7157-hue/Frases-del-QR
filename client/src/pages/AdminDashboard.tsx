@@ -15,7 +15,7 @@ import { redirectToLogin } from "@/lib/auth-utils";
 
 export default function AdminDashboard() {
   const { user, isLoading: authLoading, isAuthenticated: isAuth } = useAuth();
-  const { data: phrases, isLoading } = usePhrases();
+  const { data: phrases, isLoading: isLoadingPhrases } = usePhrases();
   const createPhrase = useCreatePhrase();
   const deletePhrase = useDeletePhrase();
   const { toast } = useToast();
@@ -25,7 +25,7 @@ export default function AdminDashboard() {
     if (!authLoading && !isAuth) {
       redirectToLogin(toast);
     }
-  }, [isAuth, authLoading]);
+  }, [isAuth, authLoading, toast]);
 
   const form = useForm<InsertPhrase>({
     resolver: zodResolver(insertPhraseSchema),
@@ -47,8 +47,8 @@ export default function AdminDashboard() {
       onSuccess: () => {
         form.reset();
         toast({
-          title: "Phrase Added",
-          description: "Your new phrase is now in the rotation.",
+          title: "Frase Añadida",
+          description: "Tu nueva frase ya está en la rotación.",
         });
       },
       onError: (error) => {
@@ -65,8 +65,8 @@ export default function AdminDashboard() {
     deletePhrase.mutate(id, {
       onSuccess: () => {
         toast({
-          title: "Deleted",
-          description: "Phrase removed from rotation.",
+          title: "Eliminada",
+          description: "Frase eliminada de la rotación.",
         });
       },
     });
@@ -79,8 +79,8 @@ export default function AdminDashboard() {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
     toast({
-      title: "Copied!",
-      description: "Link copied to clipboard.",
+      title: "¡Copiado!",
+      description: "Enlace copiado al portapapeles.",
     });
   };
 
@@ -149,7 +149,7 @@ export default function AdminDashboard() {
           <div className="space-y-4">
             <h3 className="text-xl font-bold font-display text-foreground/80 px-1">Frases Activas ({phrases?.length || 0})</h3>
             
-            {isLoading ? (
+            {isLoadingPhrases ? (
               <div className="space-y-3">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="h-20 bg-card/30 rounded-xl animate-pulse" />

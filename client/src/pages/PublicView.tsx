@@ -113,7 +113,7 @@ export default function PublicView() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-4"
               >
-                <h2 className="text-3xl font-display font-bold text-black/20">Vacío</h2>
+                <h2 className="text-3xl font-display font-bold text-black/20">Aún no hay frases</h2>
                 <p className="text-muted-foreground">La base de datos está vacía. Pide al administrador que añada algo de sabiduría.</p>
               </motion.div>
             ) : (
