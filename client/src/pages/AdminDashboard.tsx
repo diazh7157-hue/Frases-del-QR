@@ -10,22 +10,36 @@ import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { useAuth } from "@/hooks/use-auth";
-import { redirectToLogin } from "@/lib/auth-utils";
 
 export default function AdminDashboard() {
-  const { user, isLoading: authLoading, isAuthenticated: isAuth } = useAuth();
+  const [password, setPassword] = useState("");
+  const [isAuthorized, setIsAuthorized] = useState(false);
   const { data: phrases, isLoading: isLoadingPhrases } = usePhrases();
   const createPhrase = useCreatePhrase();
   const deletePhrase = useDeletePhrase();
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    if (!authLoading && !isAuth) {
-      redirectToLogin(toast);
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === "Dios es el maxima") {
+      setIsAuthorized(true);
+      localStorage.setItem("admin_auth", "true");
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Contraseña incorrecta",
+      });
     }
-  }, [isAuth, authLoading, toast]);
+  };
+
+  useEffect(() => {
+    const auth = localStorage.getItem("admin_auth");
+    if (auth === "true") {
+      setIsAuthorized(true);
+    }
+  }, []);
 
   const form = useForm<InsertPhrase>({
     resolver: zodResolver(insertPhraseSchema),
@@ -34,10 +48,25 @@ export default function AdminDashboard() {
     },
   });
 
-  if (authLoading || !isAuth) {
+  if (!isAuthorized) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="glass-panel p-8 rounded-2xl w-full max-w-md space-y-6">
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl font-bold text-primary tracking-tight" style={{ fontFamily: 'var(--font-brand)' }}>Ruth Indumentaria Modesta</h2>
+            <p className="text-muted-foreground">Ingresa la contraseña para administrar</p>
+          </div>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-3 rounded-xl bg-secondary/50 border border-white/10 focus:border-primary/50 focus:ring-primary/20 outline-none"
+              placeholder="Contraseña"
+            />
+            <ShinyButton type="submit" className="w-full">Entrar</ShinyButton>
+          </form>
+        </div>
       </div>
     );
   }
@@ -90,7 +119,10 @@ export default function AdminDashboard() {
         <div className="flex flex-col items-center text-center space-y-2 mb-12 relative">
           <div className="absolute right-0 top-0">
             <button 
-              onClick={() => window.location.href = "/api/logout"}
+              onClick={() => {
+                localStorage.removeItem("admin_auth");
+                setIsAuthorized(false);
+              }}
               className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
             >
               <LogOut className="w-4 h-4" /> Cerrar Sesión

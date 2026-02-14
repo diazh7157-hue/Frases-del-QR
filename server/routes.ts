@@ -10,15 +10,14 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  await setupAuth(app);
-  registerAuthRoutes(app);
+  // Eliminamos la protección OIDC para usar la contraseña personalizada en el frontend
   
-  app.get(api.phrases.list.path, isAuthenticated, async (req, res) => {
+  app.get(api.phrases.list.path, async (req, res) => {
     const phrases = await storage.getPhrases();
     res.json(phrases);
   });
 
-  app.post(api.phrases.create.path, isAuthenticated, async (req, res) => {
+  app.post(api.phrases.create.path, async (req, res) => {
     try {
       const input = api.phrases.create.input.parse(req.body);
       const phrase = await storage.createPhrase(input);
@@ -34,7 +33,7 @@ export async function registerRoutes(
     }
   });
 
-  app.delete(api.phrases.delete.path, isAuthenticated, async (req, res) => {
+  app.delete(api.phrases.delete.path, async (req, res) => {
     await storage.deletePhrase(Number(req.params.id));
     res.status(204).send();
   });
