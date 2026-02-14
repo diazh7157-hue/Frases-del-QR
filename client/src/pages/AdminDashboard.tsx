@@ -1,22 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePhrases, useCreatePhrase, useDeletePhrase } from "@/hooks/use-phrases";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertPhraseSchema, type InsertPhrase } from "@shared/schema";
 import { QRCodeSVG } from "qrcode.react";
-import { Trash2, Plus, QrCode, ExternalLink, Sparkles, Copy, Check } from "lucide-react";
+import { Trash2, Plus, QrCode, ExternalLink, Sparkles, Copy, Check, LogOut } from "lucide-react";
 import { ShinyButton } from "@/components/ui/shiny-button";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/hooks/use-auth";
+import { redirectToLogin } from "@/lib/auth-utils";
 
 export default function AdminDashboard() {
+  const { user, isLoading: authLoading, isAuthenticated: isAuth } = useAuth();
   const { data: phrases, isLoading } = usePhrases();
   const createPhrase = useCreatePhrase();
   const deletePhrase = useDeletePhrase();
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!authLoading && !isAuth) {
+      redirectToLogin(toast);
+    }
+  }, [isAuth, authLoading]);
 
   const form = useForm<InsertPhrase>({
     resolver: zodResolver(insertPhraseSchema),
@@ -24,6 +33,14 @@ export default function AdminDashboard() {
       text: "",
     },
   });
+
+  if (authLoading || !isAuth) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   const onSubmit = (data: InsertPhrase) => {
     createPhrase.mutate(data, {
@@ -70,7 +87,15 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-background text-foreground p-4 md:p-8 lg:p-12 font-sans">
       <div className="max-w-7xl mx-auto space-y-8">
-        <div className="flex flex-col items-center text-center space-y-2 mb-12">
+        <div className="flex flex-col items-center text-center space-y-2 mb-12 relative">
+          <div className="absolute right-0 top-0">
+            <button 
+              onClick={() => window.location.href = "/api/logout"}
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              <LogOut className="w-4 h-4" /> Cerrar Sesión
+            </button>
+          </div>
           <h2 className="text-2xl font-bold text-primary tracking-widest uppercase italic" style={{ fontFamily: 'var(--font-brand)' }}>Ruth Indumentaria Modesta</h2>
           <div className="h-1 w-24 bg-primary/20 rounded-full" />
         </div>
