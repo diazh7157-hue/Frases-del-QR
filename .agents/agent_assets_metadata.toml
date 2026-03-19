@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "gQjpqZlLIJjkrFnEzbVkf"
+uri = "file://ruth-frases-qr.tar.gz"
+type = "unspecified"
+title = "Ruth Frases QR - Código completo (.tar.gz)"
